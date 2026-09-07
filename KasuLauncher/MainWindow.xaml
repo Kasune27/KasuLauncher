@@ -1,0 +1,323 @@
+﻿<Window x:Class="KasuLauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="KASU Client" Height="680" Width="1100"
+        WindowStartupLocation="CenterScreen" Background="#101218"
+        Loaded="Window_Loaded"
+        KeyDown="Window_KeyDown">
+
+    <Grid x:Name="kasulaucher">
+        <!-- Video de Fondo (Opcional o mudo) -->
+        <MediaElement x:Name="BackgroundVideo"
+                      Source="Assets/Videos/deathcraft.mp4"
+                      LoadedBehavior="Manual" UnloadedBehavior="Stop"
+                      Stretch="UniformToFill" 
+                      MediaOpened="BackgroundVideo_MediaOpened"
+                      MediaEnded="BackgroundVideo_MediaEnded"/>
+
+        <Rectangle x:Name="BackgroundOverlay" Fill="#80101218"/>
+
+        <!-- BARRA SUPERIOR: TÍTULO, AUTOR Y REDES VERTICALES -->
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,30,0,0">
+            <!-- Título Principal -->
+            <TextBlock Text="KASU" FontSize="42" FontWeight="Bold" Foreground="White"/>
+            <TextBlock Text="LAUNCHER" FontSize="14" FontWeight="Bold" Foreground="#AAAAAA" Margin="3,-5,0,0"/>
+
+            <!-- Firma del Creador -->
+            <TextBlock Text="by_kasune27" FontSize="12" FontWeight="SemiBold" Foreground="#7289DA" Margin="3,4,0,0"/>
+
+            <!-- Etiqueta Redes -->
+            <TextBlock Text="REDES" FontSize="11" FontWeight="Bold" Foreground="#888888" Margin="3,18,0,8"/>
+
+            <!-- Botones de Redes Sociales en Alineación Vertical -->
+            <StackPanel Orientation="Vertical">
+                <Button Content="🎮 Discord" Width="110" Height="30" FontSize="11" FontWeight="Bold" Foreground="White" 
+                        Background="#5865F2" BorderThickness="0" Cursor="Hand" Margin="0,0,0,6" HorizontalContentAlignment="Center" Click="BtnDiscord_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="📷 Instagram" Width="110" Height="30" FontSize="11" FontWeight="Bold" Foreground="White" 
+                        Background="#E1306C" BorderThickness="0" Cursor="Hand" Margin="0,0,0,6" HorizontalContentAlignment="Center" Click="BtnInstagram_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="▶ YouTube" Width="110" Height="30" FontSize="11" FontWeight="Bold" Foreground="White" 
+                        Background="#FF0000" BorderThickness="0" Cursor="Hand" Margin="0,0,0,6" HorizontalContentAlignment="Center" Click="BtnYouTube_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="💜 Twitch" Width="110" Height="30" FontSize="11" FontWeight="Bold" Foreground="White" 
+                        Background="#9146FF" BorderThickness="0" Cursor="Hand" HorizontalContentAlignment="Center" Click="BtnTwitch_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="6"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Botón Ajustes Superior Derecho -->
+        <Button x:Name="BtnSettings" Content="⚙" Width="45" Height="45" FontSize="20" Foreground="White" 
+                Background="#1E222D" BorderThickness="1" BorderBrush="#333846" Cursor="Hand"
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,30,40,0" Click="BtnSettings_Click">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <!-- PANEL DE LOGIN -->
+        <Border x:Name="PanelLogin" Width="340" HorizontalAlignment="Center" VerticalAlignment="Center"
+                Background="#1E222D" CornerRadius="12" Padding="25" BorderBrush="#333846" BorderThickness="1" Visibility="Visible">
+            <StackPanel HorizontalAlignment="Center">
+                <Border Width="80" Height="80" Background="#14171F" CornerRadius="40" HorizontalAlignment="Center" Margin="0,0,0,15">
+                    <Image x:Name="SkinPreview" Source="https://minotar.net/armor/bust/Steve/100.png" Stretch="Uniform" Margin="5"/>
+                </Border>
+
+                <TextBlock Text="Usuario:" FontSize="12" Foreground="#888888" Margin="0,0,0,5"/>
+                <TextBox x:Name="TxtUsername" Width="280" Height="36" Background="#14171F" Foreground="White" 
+                         BorderThickness="1" BorderBrush="#333846" Padding="8" FontSize="14" TextChanged="TxtUsername_TextChanged"/>
+
+                <TextBlock Text="Contraseña:" FontSize="12" Foreground="#888888" Margin="0,10,0,5"/>
+                <PasswordBox x:Name="TxtPassword" Width="280" Height="36" Background="#14171F" Foreground="White" 
+                             BorderThickness="1" BorderBrush="#333846" Padding="8" FontSize="14"/>
+
+                <Button x:Name="BtnLogin" Content="INICIAR SESIÓN / REGISTRAR" Width="280" Height="42" Margin="0,18,0,0"
+                        FontSize="13" FontWeight="Bold" Foreground="White" Background="#5865F2" BorderThickness="0" Cursor="Hand" Click="BtnLogin_Click"/>
+
+                <TextBlock x:Name="BtnToggleResetPassword" Text="¿Querés cambiar tu contraseña?" FontSize="11" Foreground="#7289DA" 
+                           HorizontalAlignment="Center" Margin="0,12,0,0" Cursor="Hand" MouseLeftButtonDown="BtnToggleResetPassword_Click"/>
+
+                <StackPanel x:Name="PanelResetPassword" Visibility="Collapsed" Margin="0,12,0,0" Width="280">
+                    <Separator Background="#333846" Margin="0,0,0,10"/>
+                    <TextBlock Text="Nueva Contraseña:" FontSize="11" Foreground="#888888" Margin="0,0,0,3"/>
+                    <PasswordBox x:Name="TxtNewPasswordLogin" Height="32" Background="#14171F" Foreground="White" BorderThickness="1" BorderBrush="#333846" Padding="5"/>
+                    <Button x:Name="BtnConfirmPasswordReset" Content="Actualizar Contraseña" Height="30" Margin="0,8,0,0" 
+                            Background="#43B581" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnConfirmPasswordReset_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- VISTA DE JUEGO (BARRA INFERIOR + PANEL DE NOVEDADES) -->
+        <Grid x:Name="PanelJuego" Visibility="Collapsed">
+
+            <!-- PANEL LATERAL DERECHO DE NOVEDADES -->
+            <Border Width="320" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,90,40,110"
+                    Background="#DD191D27" CornerRadius="12" BorderBrush="#333846" BorderThickness="1" Padding="15">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="📢 NOVEDADES &amp; NOTICIAS" FontSize="14" FontWeight="Bold" Foreground="White" Margin="0,0,0,12"/>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel x:Name="ContainerNoticias">
+                            <TextBlock Text="Cargando noticias..." Foreground="#888888" FontSize="12"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <!-- BARRA INFERIOR -->
+            <Grid VerticalAlignment="Bottom" Margin="40,0,40,30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- Usuario (Izquierda) -->
+                    <ColumnDefinition Width="*"/>
+                    <!-- Botón Central (INSTALAR/JUGAR/ACTUALIZAR) -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- Servidor (Derecha) -->
+                </Grid.ColumnDefinitions>
+
+                <!-- 1. Perfil de Usuario -->
+                <StackPanel x:Name="PanelPerfilInferior" Grid.Column="0" VerticalAlignment="Bottom">
+                    <Border x:Name="MenuCuentaPopup" Background="#1E222D" CornerRadius="10" Padding="15" Width="220" Margin="0,0,0,10" 
+                            Visibility="Collapsed" BorderBrush="#333846" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="OPCIONES DE CUENTA" FontSize="11" FontWeight="Bold" Foreground="#888888" Margin="0,0,0,10"/>
+                            <Button Content="🖼️ Cambiar Skin (.png)" Height="32" Background="#14171F" Foreground="White" 
+                                    BorderThickness="1" BorderBrush="#333846" Cursor="Hand" Margin="0,0,0,8" Click="BtnChangeSkin_Click"/>
+                            <Button Content="🚪 Cerrar Sesión" Height="30" Background="Transparent" Foreground="#FF5555" 
+                                    BorderThickness="0" Cursor="Hand" Click="BtnLogout_Click"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#1E222D" CornerRadius="10" Padding="10,8,15,8" Cursor="Hand" MouseLeftButtonDown="ProfileCard_Click"
+                            BorderBrush="#333846" BorderThickness="1">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border Width="42" Height="42" Background="#14171F" CornerRadius="8" Margin="0,0,10,0">
+                                <Image x:Name="HeadPreview" Source="https://minotar.net/helm/Steve/100.png" Stretch="Uniform"/>
+                            </Border>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock x:Name="LblPerfilUser" Text="Kasune" FontSize="15" FontWeight="Bold" Foreground="White"/>
+                                <TextBlock Text="Ver opciones ▲" FontSize="11" Foreground="#888888"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- 2. Botón Principal -->
+                <Button x:Name="BtnPlay" Grid.Column="1" Content="JUGAR" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Width="220" Height="52" FontSize="20" FontWeight="Bold" Foreground="White"
+                        Click="BtnPlay_Click" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#CC102A20"/>
+                            <Setter Property="BorderBrush" Value="#2ECC71"/>
+                            <Setter Property="BorderThickness" Value="2"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" 
+                                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                                CornerRadius="12">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF2ECC71"/>
+                                    <Setter Property="BorderBrush" Value="#27AE60"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" Value="#55102A20"/>
+                                    <Setter Property="BorderBrush" Value="#552ECC71"/>
+                                    <Setter Property="Foreground" Value="#88FFFFFF"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <!-- 3. Estado del Servidor -->
+                <Border Grid.Column="2" VerticalAlignment="Bottom" Padding="12,10" Background="#191D27" CornerRadius="10"
+                        BorderBrush="#333846" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="SERVIDOR: " FontSize="12" Foreground="#888888" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="LblServerStatus" Text="● COMPROBANDO..." FontSize="14" FontWeight="Bold" Foreground="#FFAA00" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="LblServerPlayers" Text="" FontSize="12" Foreground="#888888" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- PANEL DE CONFIGURACIONES MODAL -->
+        <Border x:Name="PanelSettingsModal" Width="520" Height="470" Background="#1E222D" CornerRadius="12" 
+                HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"
+                BorderBrush="#333846" BorderThickness="1">
+            <Grid Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,15">
+                    <TextBlock Text="⚙ CONFIGURACIONES" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <Button x:Name="BtnCloseSettings" Content="✕" Width="30" Height="30" Foreground="#AAAAAA" Background="Transparent" 
+                            BorderThickness="0" FontSize="16" HorizontalAlignment="Right" Cursor="Hand" Click="BtnCloseSettings_Click"/>
+                </Grid>
+
+                <TabControl Grid.Row="1" Background="Transparent" BorderThickness="0">
+                    <TabItem Header="Juego y Java">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,10,0,0">
+                            <StackPanel Margin="5">
+                                <Grid Margin="0,0,0,5">
+                                    <TextBlock Text="Memoria RAM Asignada:" Foreground="#AAAAAA" HorizontalAlignment="Left"/>
+                                    <TextBlock x:Name="LblRamValue" Text="4 GB" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right"/>
+                                </Grid>
+                                <Slider x:Name="SliderRam" Minimum="2" Maximum="16" TickFrequency="1" IsSnapToTickEnabled="True" Value="4"/>
+
+                                <TextBlock Text="Ruta de Java (java.exe):" Foreground="#AAAAAA" Margin="0,15,0,5"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="TxtJavaPath" Height="30" Background="#14171F" Foreground="White" BorderThickness="1" BorderBrush="#333846" Padding="5"/>
+                                    <Button x:Name="BtnBrowseJava" Grid.Column="1" Content="Buscar" Width="60" Margin="5,0,0,0" Background="#333846" Foreground="White" BorderThickness="0" Cursor="Hand" Click="BtnBrowseJava_Click"/>
+                                </Grid>
+
+                                <TextBlock Text="Argumentos JVM adicionales:" Foreground="#AAAAAA" Margin="0,15,0,5"/>
+                                <TextBox x:Name="TxtJvmArgs" Height="30" Background="#14171F" Foreground="White" BorderThickness="1" BorderBrush="#333846" Padding="5" Text="-XX:+UseG1GC"/>
+
+                                <TextBlock Text="Resolución de pantalla:" Foreground="#AAAAAA" Margin="0,15,0,5"/>
+                                <ComboBox x:Name="CmbResolution" Height="30" SelectedIndex="0">
+                                    <ComboBoxItem Content="1920x1080 (Full HD)"/>
+                                    <ComboBoxItem Content="1280x720 (HD)"/>
+                                    <ComboBoxItem Content="854x480"/>
+                                </ComboBox>
+                                <CheckBox x:Name="ChkFullScreen" Content="Iniciar en Pantalla Completa" Foreground="White" Margin="0,10,0,0"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="Apariencia y Música">
+                        <StackPanel Margin="5,15,5,5">
+                            <!-- Volumen de Música -->
+                            <Grid Margin="0,0,0,5">
+                                <TextBlock Text="Volumen de la Música:" Foreground="#AAAAAA" HorizontalAlignment="Left"/>
+                                <TextBlock x:Name="LblVolumeValue" Text="50%" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Slider x:Name="SliderVolume" Minimum="0" Maximum="100" Value="50" ValueChanged="SliderVolume_ValueChanged"/>
+
+                            <!-- Selector de Canciones -->
+                            <TextBlock Text="Seleccionar Música de Fondo:" Foreground="#AAAAAA" Margin="0,15,0,5"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox x:Name="CmbMusicList" Height="32" SelectedIndex="0" Background="#14171F" Foreground="White"/>
+                                <Button x:Name="BtnAddCustomMusic" Grid.Column="1" Content="➕ Agregar (.mp3)" Width="120" Height="32" Margin="8,0,0,0" 
+                                        Background="#5865F2" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnAddCustomMusic_Click"/>
+                            </Grid>
+
+                            <CheckBox x:Name="ChkDisableVideo" Content="Desactivar Video Animado de Fondo" Foreground="White" Margin="0,20,0,0"/>
+
+                            <TextBlock Text="Al iniciar Minecraft:" Foreground="#AAAAAA" Margin="0,15,0,5"/>
+                            <ComboBox x:Name="CmbBehavior" Height="30" SelectedIndex="0">
+                                <ComboBoxItem Content="Cerrar el Launcher"/>
+                                <ComboBoxItem Content="Minimizar el Launcher"/>
+                                <ComboBoxItem Content="Mantener abierto"/>
+                            </ComboBox>
+                        </StackPanel>
+                    </TabItem>
+
+                    <TabItem Header="Sistema y Rutas">
+                        <StackPanel Margin="5,15,5,5">
+                            <TextBlock Text="Directorio del juego (.minecraft):" Foreground="#AAAAAA" Margin="0,0,0,5"/>
+                            <TextBox x:Name="TxtGameDir" Height="30" Background="#14171F" Foreground="White" BorderThickness="1" BorderBrush="#333846" Padding="5"/>
+
+                            <Button x:Name="BtnOpenGameFolder" Content="📂 Abrir Carpeta .minecraft" Height="35" Margin="0,20,0,0" Background="#333846" Foreground="White" 
+                                    FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnOpenGameFolder_Click"/>
+
+                            <Button x:Name="BtnClearCache" Content="🧹 Limpiar Caché del Launcher" Height="35" Margin="0,10,0,0" Background="#4A2828" Foreground="#FF8888" 
+                                    FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnClearCache_Click"/>
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
+
+                <Button x:Name="BtnSaveSettings" Grid.Row="2" Content="GUARDAR Y APLICAR CAMBIOS" Height="38" Background="#43B581" Foreground="White" 
+                        FontWeight="Bold" BorderThickness="0" Cursor="Hand" Margin="0,15,0,0" Click="BtnSaveSettings_Click"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

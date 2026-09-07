@@ -1,0 +1,25 @@
+﻿<Window x:Class="KasuLauncher.SplashWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Cargando..." Height="400" Width="600"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ShowInTaskbar="False">
+
+    <Grid Background="Transparent">
+        <!-- Logo directo sobre el escritorio (sin marco ni fondo blanco) -->
+        <Image Source="/Assets/Images/logo.png" 
+               Width="510" 
+               Height="412" 
+               Stretch="Uniform"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center">
+            <!-- Sombra directamente sobre la forma del logo -->
+            <Image.Effect>
+                <DropShadowEffect BlurRadius="20" Color="Black" Opacity="0.4" Direction="270" ShadowDepth="4"/>
+            </Image.Effect>
+        </Image>
+    </Grid>
+</Window>
