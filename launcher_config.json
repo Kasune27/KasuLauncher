@@ -1,11 +1,11 @@
 {
-  "version_modpack": "1.0.0",
-  "url_zip_modpack": "https://www.mediafire.com/file/3wlcsdi551avcxe/mods.zip/file",
+  "version_modpack": "1.0.1",
+  "url_zip_modpack": "https://www.mediafire.com/file/3foif58s0qg5xwd/mods.zip/file",
   "noticias": [
     {
       "titulo": "🔥 ¡Bienvenidos al Launcher de Kasu!",
-      "fecha": "13/09/2026",
-      "contenido": "Inauguramos oficialmente el servidor. El launcher se encargará de actualizar tus mods automáticamente."
+      "fecha": "27/09/2026",
+      "contenido": "nuevos mods disponibles. El launcher se encargará de actualizar tus mods automáticamente."
     }
   ]
 }
